@@ -1,0 +1,69 @@
+1. Package id of the package in which user can select upto 30
+days
+select pack_id from packages where pack_monthly= '30days';
+
+2. Names of Exercise and machine whose sets are equal to 5
+select excer_name, excer_id,sets from excercise where sets='5';
+
+3. Names of the trainer whose trainer class is intermediate
+select trainer_name from trainer where trainer_class ='intermediate';
+
+4. Names of users and their contact numbers whose age is
+greater than 20
+select users_name,user-contact from users where user_age>='20';
+
+5. Package id of the packages which weekly package is
+greater than 3
+select pack_id from packages where pack_weekly>='3';
+
+6. Names of Users who are trained by the trainer named ram.
+
+select users_name users_id from users where trainer_id in (select trainer_id from trainer where trainer_name='ram');
+
+7. Names of the users who are performing exercise barbell
+bench press.
+select users_name from users where users_id in (select users_id from does natural join bodyparts where chest='barbell bench press');
+
+8. Names of the users ,their email ids and contact numbers who
+workout on tuesday
+select users_name,user_email,user_contact from users where users_id in (select users_id from takes t join dayy d on t.days_id=d.days_id where day_name='tuesday');
+
+9. Names of the trainer who are managed by the admin named
+kanul
+select trainer_name from trainer natural join admins where admin_name ='kanul';
+
+10. Names of the users who uses dumbbells and perform more
+than or equal to 3 sets
+select users_name from users where users_id in (select users_id from excercise natural join does where excer_machine='dumbles' and sets>=3);
+
+11. Names of chest exercise which contain machine name as
+dumbbells or the number sets greater than or equal to 5
+select chest from bodyparts naturaljoin excercise where excer_machine='dumbles' or sets>=5;
+
+12. The average weight users from the users table
+select avg(user_weight) from users;
+
+13. The exercises performed by particular user siddardha on a
+given day
+select chest,legs,triceps,biceps,back from bodyparts where excer_id in (select excer_id from does natural join users where users_name='chiranth');
+
+
+14. SELECT * FROM users where users_id IN(SELECT users_id FROM excercise where excer_name = 'chestpress');
+
+    SELECT * FROM trainer where trainer_id IN(SELECT trainer_id FROM trainer where trainer_name = 'varma') ; 
+
+15.SELECT admin_id AS user_id FROM trainer WHERE trainer_class = 'intermediate' UNION SELECT trainer_id FROM trainer where trainer_id = '1425';
+16. SELECT user_id AS trainer_id FROM users WHERE users_id = '5' UNION SELECT admin_id FROM admins where admin_id = '222';
+
+
+16.DROP TRIGGER IF EXISTS `newadmin`;CREATE DEFINER=`root`@`localhost` TRIGGER `newadmin` AFTER UPDATE ON `admins` FOR EACH ROW INSERT INTO logs VALUES(NULL,NEW.admin_id,NEW.admin_contact,
+NOW())
+
+17.DELIMITER $$
+CREATE procedure get_adminsinfo(IN var2 INT)
+BEGIN
+SELECT *FROM admins LIMIT var2;
+SELECT COUNT(admin_id)AS TOTAL_ADMINS FROM admins;
+END$$
+DELIMITER $$
+CALL getadminsinfo(3)
